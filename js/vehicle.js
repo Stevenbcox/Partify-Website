@@ -1,7 +1,7 @@
 let vehicleData = [];
 
 // Load the JSON file
-fetch("vehicles.json")
+fetch("../data/vehicles.json")
   .then(res => res.json())
   .then(data => {
     vehicleData = data;
@@ -82,4 +82,8 @@ function goToRoute() {
   }
 
   window.location.href = `route.html?year=${encodeURIComponent(year)}&make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}`;
+}
+
+function goToSelected() {
+  
 }

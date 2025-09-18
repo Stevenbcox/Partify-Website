@@ -2,8 +2,8 @@ let vehicleData = [];
 
 // Load the JSON file
 fetch("../data/vehicles.json")
-  .then(res => res.json())
-  .then(data => {
+  .then((res) => res.json())
+  .then((data) => {
     vehicleData = data;
     populateYears();
   });
@@ -12,8 +12,8 @@ fetch("../data/vehicles.json")
 function populateYears() {
   const yearSelect = document.getElementById("year");
   yearSelect.innerHTML = "<option value=''>Select Year</option>"; // add default
-  const years = [...new Set(vehicleData.map(v => String(v.year)))].sort();
-  years.forEach(y => yearSelect.add(new Option(y, y)));
+  const years = [...new Set(vehicleData.map((v) => String(v.year)))].sort();
+  years.forEach((y) => yearSelect.add(new Option(y, y)));
 
   yearSelect.onchange = populateMakes;
 }
@@ -30,8 +30,12 @@ function populateMakes() {
 
   if (!year) return;
 
-  const makes = [...new Set(vehicleData.filter(v => String(v.year) === year).map(v => v.make))];
-  makes.forEach(m => makeSelect.add(new Option(m, m)));
+  const makes = [
+    ...new Set(
+      vehicleData.filter((v) => String(v.year) === year).map((v) => v.make)
+    ),
+  ];
+  makes.forEach((m) => makeSelect.add(new Option(m, m)));
 
   makeSelect.onchange = populateModels;
 }
@@ -47,12 +51,15 @@ function populateModels() {
 
   if (!year || !make) return;
 
-  const models = [...new Set(vehicleData
-    .filter(v => String(v.year) === year && v.make === make)
-    .map(v => String(v.model))
-  )];
+  const models = [
+    ...new Set(
+      vehicleData
+        .filter((v) => String(v.year) === year && v.make === make)
+        .map((v) => String(v.model))
+    ),
+  ];
 
-  models.forEach(m => modelSelect.add(new Option(m, m)));
+  models.forEach((m) => modelSelect.add(new Option(m, m)));
 }
 
 // Handle "Find Vehicle" for demo
@@ -66,8 +73,9 @@ function findVehicle() {
     return;
   }
 
-  document.getElementById("result").innerHTML =
-    `You selected: <b>${year} ${make} ${model}</b>`;
+  document.getElementById(
+    "result"
+  ).innerHTML = `You selected: <b>${year} ${make} ${model}</b>`;
 }
 
 // Redirect to route.html
@@ -81,9 +89,9 @@ function goToRoute() {
     return;
   }
 
-  window.location.href = `route.html?year=${encodeURIComponent(year)}&make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}`;
+  window.location.href = `route.html?year=${encodeURIComponent(
+    year
+  )}&make=${encodeURIComponent(make)}&model=${encodeURIComponent(model)}`;
 }
 
-function goToSelected() {
-  
-}
+function goToSelected() {}

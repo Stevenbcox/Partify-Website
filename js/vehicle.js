@@ -1,12 +1,16 @@
 let vehicleData = [];
 
-// Load the JSON file
-fetch("../data/vehicles.json")
-  .then((res) => res.json())
-  .then((data) => {
-    vehicleData = data;
+// Load the CSV file
+Papa.parse("../data/Vehicles.csv", {
+  download: true,
+  header: true, // interprets first row as headers
+  dynamicTyping: true, // converts numbers automatically
+  skipEmptyLines: true,
+  complete: function (results) {
+    vehicleData = results.data;
     populateYears();
-  });
+  },
+});
 
 // Populate Years
 function populateYears() {

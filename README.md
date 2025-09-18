@@ -11,7 +11,7 @@ This is a simple web application that allows users to select their vehicle and b
 - Responsive, modern design with gradient buttons  
 - Fixed logo at the top-left linking back to home  
 
-## Potential Styling Features
+## Potential Styling Additions
 - Card Animations: Fade-in and hover effects  
 - Button Effects: Gradient hover, click ripple, optional icons  
 - Form Styling: Custom dropdowns and focus highlights  

@@ -1,4 +1,5 @@
-// Utility to get query parameters
+const buttonsContainer = document.getElementById("buttonsContainer");
+
 function getQueryParams() {
   const params = {};
   location.search
@@ -11,20 +12,21 @@ function getQueryParams() {
   return params;
 }
 
-const params = getQueryParams();
-const year = params.year;
-const make = params.make;
-const model = params.model;
+const { year, make, model } = getQueryParams();
 
-const buttonsContainer = document.getElementById("buttonsContainer");
+Papa.parse("../data/Vehicles.csv", {
+  download: true,
+  header: true,
+  dynamicTyping: true,
+  skipEmptyLines: true,
+  complete: function (results) {
+    const data = results.data;
 
-// Load vehicles.json
-fetch("../data/vehicles.json")
-  .then((res) => res.json())
-  .then((data) => {
-    // Filter by selected vehicle
     const matches = data.filter(
-      (v) => String(v.year) === year && v.make === make && v.model === model
+      (v) =>
+        String(v.year).trim() === year.trim() &&
+        String(v.make).trim() === make.trim() &&
+        String(v.model).trim() === model.trim()
     );
 
     if (matches.length === 0) {
@@ -32,18 +34,16 @@ fetch("../data/vehicles.json")
       return;
     }
 
-    // Remove duplicate product types (just in case)
-    const productTypes = [...new Set(matches.map((v) => v.productType))];
+    const productTypes = [
+      ...new Set(matches.map((v) => v["product Type"].trim())),
+    ];
 
-    // Create a button for each product type
     productTypes.forEach((type) => {
-      // Find the URL for this product type
-      const match = matches.find((v) => v.productType === type);
+      const match = matches.find((v) => v["product Type"].trim() === type);
       const button = document.createElement("button");
       button.textContent = type;
-      button.onclick = () => {
-        window.open(match.url, "_blank"); // Open in new tab
-      };
+      button.onclick = () => window.open(match.url, "_blank");
       buttonsContainer.appendChild(button);
     });
-  });
+  },
+});
